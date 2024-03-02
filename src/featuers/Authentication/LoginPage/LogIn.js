@@ -1,27 +1,40 @@
-import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Typography from '@mui/material/Typography'
+import { Divider } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import { Copyright } from '@mui/icons-material'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
+import { useDispatch } from 'react-redux'
+import { ROUTE } from '../../../config/constants'
+import { login } from '../authSlice'
 
 const LogIn = () => {
+const dispatch = useDispatch();
+
+
   const handleSubmit = event => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
+    const user = {
       email: data.get('email'),
       password: data.get('password'),
-    })
+    }
+
+    if (user.email && user.password) {
+        dispatch(login(user)).then(resp => {
+            window.location.href=ROUTE.base
+        })
+    }
   }
+
+
+
   return (
     <>
       <Container component='main' maxWidth='xs'>
@@ -38,7 +51,7 @@ const LogIn = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Sign up
+            login
           </Typography>
           <Box
             component='form'
@@ -47,27 +60,8 @@ const LogIn = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete='given-name'
-                  name='firstName'
-                  required
-                  fullWidth
-                  id='firstName'
-                  label='First Name'
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id='lastName'
-                  label='Last Name'
-                  name='lastName'
-                  autoComplete='family-name'
-                />
-              </Grid>
+              
+             
               <Grid item xs={12}>
                 <TextField
                   required
@@ -89,14 +83,7 @@ const LogIn = () => {
                   autoComplete='new-password'
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value='allowExtraEmails' color='primary' />
-                  }
-                  label='I want to receive inspiration, marketing promotions and updates via email.'
-                />
-              </Grid>
+
             </Grid>
             <Button
               type='submit'
@@ -104,18 +91,29 @@ const LogIn = () => {
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
+            <Divider>or via login with </Divider>
+        
+        <Grid  display={'flex'} justifyContent='space-between'>
+          <Button type='submit' fullWidth variant='contained' sx={{ mb: 2, ml:1 }}>
+              Google
+          </Button>
+
+          <Button type='submit' fullWidth variant='contained' sx={{ mb: 2 ,ml:1}} >
+              faceBook
+          </Button>
+        </Grid>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href='#' variant='body2'>
-                  Already have an account? Sign in
+                <Link href={ROUTE.register} variant='body2'>
+                  dont have an account?  register
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+       
       </Container>
     </>
   )
