@@ -45,5 +45,6 @@ export function invalidateSession() {
     localStorage.removeItem(SESSION_KEYS.TOKEN);
     localStorage.removeItem(SESSION_KEYS.EXPIRY);
     localStorage.removeItem(SESSION_KEYS.USERS);
-    localStorage.setItem('ISLOGGEDIN',false)
+    localStorage.removeItem(SESSION_KEYS.ISLOGGEDIN);
+    localStorage.removeItem(SESSION_KEYS.ISGOOGLELOGEDIN);
 }

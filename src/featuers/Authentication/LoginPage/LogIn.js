@@ -12,9 +12,11 @@ import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { useDispatch } from 'react-redux'
 import { ROUTE } from '../../../config/constants'
-import { login } from '../authSlice'
+import { isGoogleLogin, login } from '../authSlice'
+import { addDelay } from '../../../utils/utils'
 
 const LogIn = () => {
+const [isRender, setIsRender] = React.useState(false);  
 const dispatch = useDispatch();
 
 
@@ -32,6 +34,19 @@ const dispatch = useDispatch();
         })
     }
   }
+
+
+  const loginUsingGoogle = () => {
+    window.open(process.env.REACT_APP_API_END_POINT_LOCAL+"/auth/google/callback","_self");
+      setIsRender(true);
+  }
+
+
+  React.useEffect(()=>{
+    if (isRender) {
+        dispatch(isGoogleLogin()).then((resp)=>{console.log(resp)})
+    }
+  },[isRender])
 
 
 
@@ -93,10 +108,10 @@ const dispatch = useDispatch();
             >
               Sign In
             </Button>
-            <Divider>or via login with </Divider>
+            <Divider>or via continue with </Divider>
         
         <Grid  display={'flex'} justifyContent='space-between'>
-          <Button type='submit' fullWidth variant='contained' sx={{ mb: 2, ml:1 }}>
+          <Button type='submit' fullWidth variant='contained' sx={{ mb: 2, ml:1 }} onClick={loginUsingGoogle}>
               Google
           </Button>
 

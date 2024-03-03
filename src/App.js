@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { selectCurrentLocation, updateLocation } from './utils/locationSlice';
-import { selectLoggedIn, updateIsLoggedIn } from './featuers/Authentication/authSlice';
-import { ROUTE } from './config/constants';
-import Register from './featuers/Authentication/SignUpPage/Register';
-import LogIn from './featuers/Authentication/LoginPage/LogIn';
-import HomePage from './featuers/Home/HomePage';
-import Wraper from './featuers/Home/Wraper';
 import { isAuthenticated } from './config/Session';
+import { ROUTE } from './config/constants';
+import LogIn from './featuers/Authentication/LoginPage/LogIn';
+import Register from './featuers/Authentication/SignUpPage/Register';
+import { updateIsLoggedIn } from './featuers/Authentication/authSlice';
+import HomePage from './featuers/Home/HomePage';
+import { selectCurrentLocation, updateLocation } from './utils/locationSlice';
 
 const App = () => {
+  const res = isAuthenticated();
   const dispatch = useDispatch();
   const location = useSelector(selectCurrentLocation);
 
@@ -45,9 +45,15 @@ const App = () => {
 
   useEffect(()=>{
     // getLocationParams();
-    const res = isAuthenticated();
-    dispatch(updateIsLoggedIn(res));
+    
+      dispatch(updateIsLoggedIn(res));
+     
+   
   },[])
+  
+  console.log(res);
+
+  
 
   return (
     <Routes>

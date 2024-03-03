@@ -1,7 +1,9 @@
 export const SESSION_KEYS = {
     TOKEN: 'TOKEN',
     EXPIRY: 'EXPIRY',
-    USERS: 'USERS'
+    USERS: 'USERS',
+    ISLOGGEDIN:'ISLOGGEDIN',
+    ISGOOGLELOGEDIN:'ISGOOGLELOGEDIN',
 }
 
 export const ROUTE = {

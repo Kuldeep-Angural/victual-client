@@ -38,3 +38,16 @@ export const registerUser = async (credentials) =>{
       return { isAuthenticated: false };
     });
   }
+
+
+  export const getGoogleUser = async () =>{
+    return await axios.get(BASE_ENDPOINT+'/google/login/success', {withCredentials:true} ).then(function (response) {
+      if (response.status === 200) {
+        return { isAuthenticated: true,  ...response.data}
+      } else {
+        return { isAuthenticated: false };
+      }
+    }).catch(function (error) {
+      return { isAuthenticated: false };
+    });
+  }
