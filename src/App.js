@@ -45,10 +45,6 @@ const App = () => {
 
   useEffect(()=>{
     // getLocationParams();
-    
-      dispatch(updateIsLoggedIn(res));
-     
-   
   },[])
   
   console.log(res);

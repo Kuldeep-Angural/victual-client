@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createSession, invalidateSession } from '../../config/Session';
-import { authenticateUser, getGoogleUser } from '../../config/api';
+import { createSession, createUser, invalidateSession } from '../../config/Session';
+import { getGoogleUser, loginUser, logoutApi, registerUser } from '../../config/api';
+import { convertBtoaToNormalObject } from '../../utils/utils';
 import { SESSION_KEYS } from '../../config/constants';
 
 const initialState = {
@@ -12,13 +13,26 @@ const initialState = {
 };
 
 export const login = createAsyncThunk(
-  'auth/login',
+  'auth/register',
   async (credentials) => {
-    const response = await authenticateUser(credentials);
-    return response;
+    return await loginUser(credentials);
   }
 )
 
+export const register = createAsyncThunk(
+  'auth/login',
+  async (credentials) => {
+    return await registerUser(credentials);
+  }
+)
+
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async () => {
+    const token = localStorage.getItem(SESSION_KEYS.TOKEN);
+    return await logoutApi(token);
+  }
+)
 
 export const isGoogleLogin = createAsyncThunk(
   'auth/isGoogleLogin',
@@ -27,6 +41,8 @@ export const isGoogleLogin = createAsyncThunk(
     return response;
   }
 )
+
+
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -41,30 +57,28 @@ export const authSlice = createSlice({
         state.isLoggedIn = action?.payload;
     }
 
+
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.status = 'processing';
+      }).addCase(logoutUser.fulfilled , (state,action)=>{
+        console.log(action.payload)
+        if (action.payload) {
+          invalidateSession();
+          window.location.href = window.location.origin+process.env.REACT_APP_BASE_NAME+"/";
+        };
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.status = 'done';
-        state.isLoggedIn=true;
-        state.authData = action.payload;
-        localStorage.setItem(SESSION_KEYS.USERS,action?.payload?.registerationId);
-        localStorage.setItem(SESSION_KEYS.ISGOOGLELOGEDIN,false)
-        createSession(action.payload.token);
-        localStorage.setItem(SESSION_KEYS.ISLOGGEDIN,true);
+        if (action?.payload?.userData) {
+          const [id,name,email,mobile,role] =convertBtoaToNormalObject(action?.payload?.userData);  
+          console.log(id,name,email,mobile,role);
+          createSession(action?.payload?.accessToken);
+          createUser({id,name,email,mobile,role});
+        } 
       })
-      .addCase(isGoogleLogin.fulfilled, (state, action) => {
-        state.status = 'done';
-        state.isLoggedIn=true;
-        state.authData = action.payload;
-        localStorage.setItem(SESSION_KEYS.USERS,action?.payload.user._id);
-        localStorage.setItem(SESSION_KEYS.ISLOGGEDIN,true)
-        createSession(action.payload.token);
-        localStorage.setItem(SESSION_KEYS.ISGOOGLELOGEDIN,true);
-      });
+      
   }
 });
 export const { logout , updateIsLoggedIn } = authSlice.actions;

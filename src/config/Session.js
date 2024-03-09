@@ -1,12 +1,12 @@
 import { SESSION_KEYS } from "./constants";
 
 export const createSession = (token) => {
+    console.log(token);
     const jwt = parseJwt(token);
     if (jwt) {
         const exp = new Date(jwt.exp * 1000);
         localStorage.setItem(SESSION_KEYS.TOKEN, token);
         localStorage.setItem(SESSION_KEYS.EXPIRY, exp.getTime());
-        
     }
     else{
         window.location.href = window.location.origin+process.env.REACT_APP_BASE_NAME+"/";
@@ -41,10 +41,15 @@ function isExpired() {
     return true;
 }
 
+export const createUser = ({ id, name, email, mobile, role }) => {
+    localStorage.setItem(SESSION_KEYS.USERS, JSON.stringify({ id, name, email, mobile, role }));
+}
+
+
 export function invalidateSession() {
     localStorage.removeItem(SESSION_KEYS.TOKEN);
+    localStorage.removeItem(SESSION_KEYS.REFRESHTOKEN)
     localStorage.removeItem(SESSION_KEYS.EXPIRY);
     localStorage.removeItem(SESSION_KEYS.USERS);
-    localStorage.removeItem(SESSION_KEYS.ISLOGGEDIN);
-    localStorage.removeItem(SESSION_KEYS.ISGOOGLELOGEDIN);
+    
 }
