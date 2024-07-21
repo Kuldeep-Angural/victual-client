@@ -6,3 +6,10 @@ export const ROUTES = [
     { name: '/auth', value: (index) => (<Auth key={index} />) },
 
 ]
+
+export const SESSION_KEYS = {
+    TOKEN: 'TOKEN',
+    EXPIRY: 'EXPIRY',
+    FACILITY: 'FACILITY',
+    USER: 'USER',
+};
