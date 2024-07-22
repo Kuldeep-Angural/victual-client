@@ -1,13 +1,13 @@
 import { Box, CardMedia, Grid, Typography } from '@mui/material'
 import React from 'react'
-import AuthForm from './AuthForm'
 import logo from '../../images/Logo.png'
+import AuthForm from './AuthForm'
 
 const Auth = () => {
   return (
     <Grid container spacing={0}>
       <Grid item md={8} >
-        <Box sx={{ height: '100vh', width: '100%', backgroundColor: 'orange', display: { xs: 'none', md: 'flex', }, }}>
+        <Box color='primary' sx={{ height: '100vh', width: '100%', backgroundColor: '#FF9800', display: { xs: 'none', md: 'flex', }, }}>
           <Box sx={{ height: '100%' }} p={3} display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <Grid container spacing={2} p={2}>
 
@@ -23,7 +23,6 @@ const Auth = () => {
           </Box>
         </Box>
       </Grid>
-
       <Grid item md={4} xs={12} >
         <AuthForm />
       </Grid>

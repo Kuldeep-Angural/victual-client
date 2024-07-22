@@ -4,12 +4,10 @@ import { blue, green, orange, red } from '@mui/material/colors';
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#2196F3',
-            light:'#82C984',
-            dark: '#f5bc00',
+            main: '#FF9800',
         },
         secondary: {
-            main: '#FFC107',
+            main: '#795548',
         },
         background: {
             main: '#F5F5F5'
@@ -33,5 +31,5 @@ export const theme = createTheme({
         input: {
             main: '#514FC9',
         },
-    },
+    }
 });

@@ -67,7 +67,7 @@ const AuthForm = () => {
 
 
     return (
-        <Box sx={{ height: '100vh', width: '100%', backgroundColor: 'white' }}>
+        <Box sx={{ height: '100vh', width: '100%', backgroundColor: 'secondary' }}>
             <Box sx={{ height: '100%' }} p={3} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                 <Grid container spacing={2}>
                     <Grid item md={12} sm={12} xs={12}>
